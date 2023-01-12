@@ -18,6 +18,7 @@ class Listener{
         let elemBelow = "";
         let lastCard ="";
         let dragCardSize ="";
+        let dragCard ="";
 
         main.addEventListener("dragenter", (e) => {
             if (e.target.classList.contains("column")) {
@@ -33,9 +34,15 @@ class Listener{
 
         main.addEventListener("dragstart", (e) => {
         if (e.target.classList.contains("card")) {
+            e.dataTransfer.dropEffect = 'cut'
             e.dataTransfer.setData("text/plain", e.target.id);
             dragCardSize = e.target.offsetHeight;
-            console.log(dragCardSize)
+            dragCard = e.target;
+            setTimeout(()=>{
+                dragCard.classList.add('fog');
+        },0);
+
+            
             }
           });
 
@@ -50,6 +57,7 @@ class Listener{
         });
 
         main.addEventListener("drop", (e) => {
+            dragCard.classList.remove('fog')
             const card = main.querySelector(`[id="${e.dataTransfer.getData("text/plain")}"]`);
             if (elemBelow === card) {
                 return;
