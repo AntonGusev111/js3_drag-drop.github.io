@@ -23,18 +23,17 @@ class Listener{
         main.addEventListener("dragenter", (e) => {
             if (e.target.classList.contains("column")) {
             e.target.classList.add("drop");
-            }
+            };
         });
           
         main.addEventListener("dragleave", (e) => {
             if (e.target.classList.contains("drop")) {
               e.target.classList.remove("drop");
-            }
+            };
         });
 
         main.addEventListener("dragstart", (e) => {
         if (e.target.classList.contains("card")) {
-            e.dataTransfer.dropEffect = 'cut'
             e.dataTransfer.setData("text/plain", e.target.id);
             dragCardSize = e.target.offsetHeight;
             dragCard = e.target;
@@ -50,10 +49,14 @@ class Listener{
             e.preventDefault();
             elemBelow = e.target;
             if (elemBelow.classList.contains("card")){
-                lastCard = e.target
+                if(elemBelow.id != lastCard.id && lastCard !=''){
+                    lastCard.style.marginTop = '20px';
+                };
+                lastCard = e.target;
                 elemBelow.style.marginTop = `${dragCardSize+10}px`;
-            };
 
+                
+            };
         });
 
         main.addEventListener("drop", (e) => {
@@ -63,7 +66,7 @@ class Listener{
                 return;
             };
             if (elemBelow.classList.contains("card")) {
-                const center =elemBelow.getBoundingClientRect().y + elemBelow.getBoundingClientRect().height / 2;
+                const center = elemBelow.getBoundingClientRect().y + elemBelow.getBoundingClientRect().height / 2;
                 if (e.clientY > center) {
                     if (elemBelow.nextElementSibling !== null) {
                         elemBelow = elemBelow.nextElementSibling;
@@ -164,4 +167,8 @@ const listener = new Listener();
 
 listener.localStateRead();
 listener.listener();
+
+//console.log('lastcrd',lastCard)
+//if (elemBelow.classList.contains("card")){
+//    console.log('nvjslv')
 
